@@ -1,0 +1,177 @@
+PROJECT NAME: KasiRent (Township Rentals, Verified Landlords)
+
+GOAL: Build a premium-looking, mobile-first demo web app (PWA style) similar to Property24/PrivateProperty, but focused on township rentals and student accommodation. Core differentiator is trust: landlords get verified, listings are moderated, renters avoid scams. The demo must be clean, fast, data-light, and very user-friendly.
+
+1) Tech stack (choose sensible defaults)
+	•	Frontend: React + TypeScript + Vite
+	•	UI: TailwindCSS + shadcn/ui style components (premium look)
+	•	Backend: Node.js + Express (or Next.js fullstack if easier)
+	•	Database: SQLite for demo (via Prisma ORM)
+	•	Auth: Email OR phone number login (OTP simulated) + password option
+	•	Storage: local uploads saved to /uploads for demo (no S3)
+	•	Maps: use Google Maps embed link OR OpenStreetMap (Leaflet) for a simple pin preview (demo friendly)
+	•	Payments: demo mock (no real charges), just show pricing and “activate subscription” as a simulated state
+
+2) Core user roles
+	1.	Renter (search, view, contact)
+	2.	Landlord (create listings, verify, manage listings)
+	3.	Admin (moderate listings, approve verifications, handle reports)
+
+3) Key screens and routes (premium UX, simple flow)
+
+Public
+	•	/ : Home (search bar, location selector, budget slider, quick category buttons)
+	•	/search : Results with filters (township, price, room type, verified only toggle)
+	•	/listing/:id : Listing details (gallery, price, rules, map pin, landlord badge, report button)
+	•	/about : Trust and safety page
+	•	/pricing : Landlord plans (Free trial, Basic, Pro)
+
+Auth
+	•	/login : phone OTP simulated + email option
+	•	/register : renter or landlord selection
+
+Renter dashboard
+	•	/renter : saved listings, recent searches, messages (optional)
+	•	Save/favorite listings
+	•	“Avoid scam tips” banner
+
+Landlord dashboard
+	•	/landlord : overview stats (views, enquiries), verification status
+	•	/landlord/new : create listing wizard (step-by-step)
+	•	/landlord/listings : manage listings (edit, pause, delete)
+	•	/landlord/verify : verification wizard (phone, ID, selfie, proof of address optional, property proof)
+	•	/landlord/billing : subscription state (mock), renew, invoices (mock)
+
+Admin
+	•	/admin : admin login gate
+	•	/admin/verifications : approve/decline landlords, view docs
+	•	/admin/listings : approve/pause listings, flag duplicates
+	•	/admin/reports : view scam reports and take action
+	•	/admin/users : manage users, ban, reset verification
+
+4) Listing categories (must support)
+	•	Backyard Room
+	•	Backyard Flat
+	•	Shared Room
+	•	Student Accommodation
+	•	Cottage / Outside Room
+	•	Family Room
+
+5) Listing fields (database)
+	•	id, title, description
+	•	pricePerMonth (number), deposit (optional)
+	•	location: province, city, township, suburb(optional)
+	•	addressShort (no exact address public), googlePinLatLng OR mapLink
+	•	roomType (enum), bathrooms, kitchenAccess (yes/no), furnished (yes/no)
+	•	utilitiesIncluded: water, electricity, wifi (booleans)
+	•	maxOccupants, genderPreference optional (for student/room share)
+	•	leaseType: month-to-month, 6 months, 12 months
+	•	photos (array)
+	•	availabilityDate
+	•	landlordId
+	•	verifiedLandlordRequired: true for publishing
+	•	status: draft, pending_review, live, paused, rejected
+	•	safetyScore (computed): verified landlord + complete info + community rating
+
+6) Trust and anti-scam features (core of the product)
+
+Landlord verification levels
+	•	Level 0: Unverified (cannot publish live)
+	•	Level 1: Phone verified (demo OTP)
+	•	Level 2: ID + selfie match (demo simulated)
+	•	Level 3: Proof of residence OR property proof (photo + pin)
+Show badge on listings:
+	•	“Verified Landlord” with level indicator
+
+Reporting system
+	•	On each listing: “Report scam / suspicious”
+	•	Report reasons: fake photos, deposit scam, unreachable, duplicate, other
+	•	Admin receives reports and can pause listing
+
+Safety education
+	•	Banner tips on listing and checkout style screens:
+	•	never pay deposit before viewing
+	•	meet in public first
+	•	verify landlord badge
+	•	use in-app chat log (optional)
+
+7) Contact methods (simple and realistic)
+
+On listing details include:
+	•	“Chat on WhatsApp” button (link using landlord phone, prefilled message)
+	•	“Call landlord” (tel link)
+	•	Optional in-app message thread (demo basic)
+
+Prefilled WhatsApp message example:
+“Hi, I saw your listing on KasiRent: [listing title]. Is it still available? My budget is R____ and I want to move on [date].”
+
+8) Search and filters (must feel powerful)
+	•	Search by: township, city, province
+	•	Filters:
+	•	price range slider
+	•	room type
+	•	verified landlords only toggle
+	•	utilities included toggles
+	•	furnished toggle
+	•	student accommodation toggle
+	•	sort: newest, price low to high, safety score
+
+9) Monetization logic (demo)
+
+Pricing plans (mock):
+	•	Free Trial: 1 listing live for 30 days
+	•	Basic: R39/month per active listing
+	•	Pro: R79/month includes 3 boosts/month + priority support
+Add “Boost listing” feature:
+	•	Boost makes it appear higher in search for 7 days
+	•	Mock purchase and status badge “Boosted”
+
+10) UI requirements (premium but easy)
+	•	Mobile-first layout, responsive
+	•	Clean typography, soft shadows, consistent spacing
+	•	Use cards for listings like Property24
+	•	Listing cards show: photo, price, township, room type, verified badge
+	•	Use skeleton loading states
+	•	Use empty states with friendly text
+	•	Keep data usage low: compress images in demo or limit size
+
+Suggested brand styling:
+	•	Name: KasiRent
+	•	Accent color: modern blue or green
+	•	Icons: simple line icons
+	•	Tone: trustworthy, local, safe
+
+11) Seed demo data (important)
+
+On first run, auto-seed:
+	•	20 sample listings across:
+	•	Khayelitsha, Gugulethu, Langa (Cape Town)
+	•	Soweto, Tembisa, Alexandra (Gauteng)
+	•	Umlazi, KwaMashu (Durban)
+	•	Include a mix of verified and unverified landlords
+	•	Include student accommodation listings near “campus areas” in each city
+
+12) Admin demo login
+
+Create default admin:
+	•	email: admin@kasirent.co.za
+	•	password: Admin123! (demo only)
+
+13) Quality bar
+	•	No broken routes
+	•	Validation on forms
+	•	Toast notifications for actions
+	•	Proper error handling
+	•	Clean, commented code
+	•	README with how to run locally
+
+14) Deliverables
+	•	Running demo app with all screens
+	•	Working database models
+	•	Working CRUD for landlords and listings
+	•	Verification workflow (simulated documents)
+	•	Search and filters working
+	•	Admin moderation working
+	•	WhatsApp contact links working
+
+Build it now.

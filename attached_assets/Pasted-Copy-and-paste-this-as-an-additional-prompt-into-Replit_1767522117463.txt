@@ -1,0 +1,133 @@
+Copy and paste this as an additional prompt into Replit App Creator to upgrade the demo:
+
+⸻
+
+ADD-ON UPGRADE: Property24-Style Search, Budget Ranges, Sorting, Amenities Distance + Township-Vibe Listings
+
+Upgrade the existing KasiRent demo so it behaves like Property24 / PrivateProperty on search and filtering, with a premium but simple UI.
+
+A) Property types (expand categories)
+
+Add these property types and make them selectable in filters and listing creation:
+	•	Backyard Room
+	•	Backyard Flat
+	•	Flat / Apartment
+	•	House Share (room in a house)
+	•	Student Accommodation
+	•	Entire Home (Full House for rent)
+	•	Cottage / Outside Room
+
+Each listing must have propertyType + optional sub-type:
+	•	For Student Accommodation: Single Room, Sharing Room, Bachelor Unit
+
+B) Budget system (min-max range + quick presets)
+
+On Home and Search pages add:
+	1.	Min price dropdown
+	2.	Max price dropdown
+	3.	A range slider alternative (mobile friendly)
+
+Include quick preset buttons (tap to set range):
+	•	Under R1,500
+	•	R1,500 to R2,500
+	•	R2,500 to R3,500
+	•	R3,500 to R5,000
+	•	R5,000+
+
+Make sure search queries only return listings where:
+	•	pricePerMonth >= minPrice AND pricePerMonth <= maxPrice
+
+C) Sorting like Property24
+
+Add a clear “Sort by” dropdown on /search with:
+	•	Newest listings
+	•	Oldest listings
+	•	Price: Low to High
+	•	Price: High to Low
+	•	Safety score: High to Low
+	•	Distance to selected landmark: Low to High (if landmark selected)
+
+Default sort should be “Newest”.
+
+D) Location filters and township-first UX
+
+Add filters:
+	•	Province
+	•	City/Metro
+	•	Township / Area (primary)
+	•	Optional nearby campus name for student category
+
+Search must feel fast:
+	•	Use URL query params: ?township=Khayelitsha&min=1500&max=3500&sort=price_asc&type=backyard_flat
+
+E) Amenities distance (Taxi rank, schools, train, gym, clinic, mall)
+
+On each listing:
+	•	Store a lat and lng pin
+	•	Show “Nearby” section listing distances to:
+	•	Taxi rank
+	•	School
+	•	Train station
+	•	Clinic / hospital
+	•	Supermarket / mall
+	•	Gym (optional)
+
+Implementation requirement:
+	•	Compute distance using Haversine formula.
+	•	For demo: create a seeded set of nearby POIs per township OR use OpenStreetMap Overpass/Nominatim if available.
+	•	If external POI lookup fails, fall back to seeded POIs so the feature always works.
+
+Add a filter option:
+	•	“Within 2 km of taxi rank”
+	•	“Within 3 km of train station”
+	•	“Near campus” (student accommodation only)
+
+F) Township vibe photos and seeding (important)
+
+Seed at least 30 realistic demo listings across:
+	•	Cape Town: Khayelitsha, Gugulethu, Langa, Delft
+	•	Gauteng: Soweto, Tembisa, Alexandra
+	•	Durban: Umlazi, KwaMashu
+
+Mix of:
+	•	Backyard rooms and backyard flats (most common)
+	•	Entire township homes (some users want full houses)
+	•	Flats/apartments in township areas
+	•	Student accommodation near campuses (simple, not luxury)
+
+For each seeded listing:
+	•	Include 4 to 8 photos
+	•	Use photo URLs that match township rentals and simple student rooms (avoid luxury lodge images)
+
+Create a demoPhotos.ts that groups photos by:
+	•	backyard_room
+	•	backyard_flat
+	•	township_house
+	•	township_flat
+	•	student_simple
+
+G) Search results cards (premium)
+
+Each card must show:
+	•	Main photo
+	•	Price per month
+	•	Township + city
+	•	Property type
+	•	Verified badge (if landlord verified)
+	•	Small chips: “Electricity included”, “Wi-Fi”, “Furnished”, “Boosted”
+	•	Safety score indicator
+
+Add “Map view” toggle (optional demo):
+	•	Show pins for results (simple map component)
+
+H) Keep it easy to use
+	•	Filters should collapse into a bottom sheet on mobile
+	•	Clear “Apply filters” and “Reset” buttons
+	•	Skeleton loading for results
+	•	Empty state: show tips and suggest widening budget
+
+Build these upgrades now and ensure no broken routes, filters work, sorting works, and seeded data demonstrates all new options.
+
+⸻
+
+If you want the township images to be even more consistent (same lighting and style), tell me the exact vibe you want (more “real raw township” vs “modern township renovations”) and I’ll give you an image-generation pack for it too.
